@@ -29,7 +29,7 @@ function PhotoSlot({ photo, onSelect }) {
       onClick={() =>
         !isMissing && onSelect({ src: currentSrc, label: photo.label })
       }
-      className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-ink-900/5 text-left ring-1 ring-ink-900/10 focus:outline-none focus:ring-2 focus:ring-brass-500"
+      className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-ink-900/5 text-left ring-1 ring-ink-900/10 focus:outline-none focus:ring-2 focus:ring-brass-500"
     >
       {!isMissing ? (
         <img
@@ -40,10 +40,12 @@ function PhotoSlot({ photo, onSelect }) {
           className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
         />
       ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center p-4 text-center">
-          <Camera className="h-7 w-7 text-brass-500" />
-          <p className="mt-2 font-semibold text-ink-900">{photo.label}</p>
-          <p className="mt-0.5 text-xs text-ink-900/50">
+        <div className="flex h-full w-full flex-col items-center justify-center p-3 text-center">
+          <Camera className="h-6 w-6 text-brass-500" />
+          <p className="mt-1.5 text-xs font-semibold text-ink-900 sm:text-sm">
+            {photo.label}
+          </p>
+          <p className="mt-0.5 break-all text-[11px] text-ink-900/50">
             public{photo.base}.jpeg
           </p>
         </div>
@@ -53,30 +55,35 @@ function PhotoSlot({ photo, onSelect }) {
 }
 
 function VideoSlot({ reel }) {
-  const [missing, setMissing] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-ink-900 text-white shadow-sm ring-1 ring-ink-900/10">
-      {!missing ? (
-        <div className="relative aspect-[9/16] w-full bg-black">
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-ink-900 text-white shadow-sm ring-1 ring-ink-900/10">
+      <div className="relative aspect-[4/5] w-full bg-black">
+        {!failed ? (
           <video
-            src={reel.file}
             controls
             playsInline
             preload="metadata"
-            onError={() => setMissing(true)}
-            className="h-full w-full object-cover"
-          />
-        </div>
-      ) : (
-        <div className="flex aspect-[9/16] w-full flex-col items-center justify-center bg-ink-900/95 p-6 text-center">
-          <Film className="h-8 w-8 text-brass-400" />
-          <p className="mt-3 font-semibold text-white">{reel.title}</p>
-          <p className="mt-1 text-xs text-white/60">
-            Drop file at public{reel.file}
-          </p>
-        </div>
-      )}
+            className="h-full w-full object-contain bg-black"
+            onError={() => setFailed(true)}
+          >
+            <source src={reel.file} type="video/mp4" />
+            Your browser does not support MP4 video playback.
+          </video>
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center bg-ink-900/95 p-5 text-center">
+            <Film className="h-8 w-8 text-brass-400" />
+            <p className="mt-3 text-sm font-semibold text-white">
+              {reel.title}
+            </p>
+            <p className="mt-1 text-xs text-white/65">
+              Check that <span className="font-mono">public{reel.file}</span>{" "}
+              exists, is under 100 MB on GitHub, and uses H.264 MP4 format.
+            </p>
+          </div>
+        )}
+      </div>
       <div className="border-t border-white/10 px-4 py-3">
         <p className="text-sm font-semibold text-white">{reel.title}</p>
         <p className="text-xs text-white/60">
@@ -91,45 +98,49 @@ export default function Gallery() {
   const [selected, setSelected] = useState(null);
 
   return (
-    <div className="py-16">
+    <div className="py-10 sm:py-16">
       <div className="container-x">
         {/* PHOTO GALLERY HEADER */}
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-brass-600">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brass-600 sm:text-sm">
             Captured Moments
           </p>
-          <h1 className="mt-2 text-4xl font-bold text-ink-900">
+          <h1 className="mt-2 text-3xl font-bold text-ink-900 sm:text-4xl">
             Adventure Gallery
           </h1>
-          <p className="mt-3 text-base text-ink-900/70">
-            From Oloolua Nature Trail & Thiba Falls to the Maasai Mara and Diani
-            coast—explore real snapshots from the road with Piratessafaris.
+          <p className="mt-3 text-sm text-ink-900/70 sm:text-base">
+            From Oloolua Nature Trail &amp; Thiba Falls to the Maasai Mara and
+            Diani coast—explore real snapshots from the road with
+            Piratessafaris.
           </p>
         </div>
 
         {/* 20-PHOTO GRID */}
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           {allPhotos.map((photo) => (
             <PhotoSlot key={photo.id} photo={photo} onSelect={setSelected} />
           ))}
         </div>
 
-        {/* VIDEO EDITS & ADVENTURE REELS SECTION (3x2 GRID) */}
-        <section id="videos" className="mt-20 border-t border-ink-900/10 pt-16">
+        {/* VIDEO EDITS & ADVENTURE REELS SECTION */}
+        <section
+          id="videos"
+          className="mt-14 border-t border-ink-900/10 pt-12 sm:mt-20 sm:pt-16"
+        >
           <div className="max-w-2xl">
-            <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brass-600">
-              <Film className="h-4 w-4" /> Motion & Highlights
+            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brass-600 sm:text-sm">
+              <Film className="h-4 w-4" /> Motion &amp; Highlights
             </p>
-            <h2 className="mt-2 text-3xl font-bold text-ink-900">
-              Video Edits & Adventure Reels
+            <h2 className="mt-2 text-2xl font-bold text-ink-900 sm:text-3xl">
+              Video Edits &amp; Adventure Reels
             </h2>
-            <p className="mt-2 text-base text-ink-900/70">
+            <p className="mt-2 text-sm text-ink-900/70 sm:text-base">
               Experience the energy of the trail, waterfalls, and game drives in
               motion.
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {videoReels.map((reel) => (
               <VideoSlot key={reel.id} reel={reel} />
             ))}
@@ -137,9 +148,9 @@ export default function Gallery() {
         </section>
 
         {/* BOTTOM CTA */}
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 rounded-3xl bg-ink-900 p-8 text-white sm:flex-row">
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 rounded-3xl bg-ink-900 p-6 text-white sm:mt-16 sm:flex-row sm:items-center sm:p-8">
           <div>
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-xl font-bold sm:text-2xl">
               Ready to make your own safari memories?
             </h2>
             <p className="mt-1 text-sm text-white/75">
@@ -147,7 +158,10 @@ export default function Gallery() {
               rest.
             </p>
           </div>
-          <Link to="/book" className="btn btn-primary shrink-0">
+          <Link
+            to="/book"
+            className="btn btn-primary w-full shrink-0 sm:w-auto"
+          >
             Plan Your Trip <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -163,7 +177,7 @@ export default function Gallery() {
             type="button"
             onClick={() => setSelected(null)}
             aria-label="Close image"
-            className="absolute right-5 top-5 rounded-full bg-white/15 p-2 text-white hover:bg-white/25"
+            className="absolute right-4 top-4 rounded-full bg-white/15 p-2 text-white hover:bg-white/25 sm:right-5 sm:top-5"
           >
             <X className="h-6 w-6" />
           </button>

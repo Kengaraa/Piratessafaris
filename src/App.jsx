@@ -6,6 +6,7 @@ import Packages from "./pages/Packages";
 import PackageDetail from "./pages/PackageDetail";
 import Gallery from "./pages/Gallery";
 import Book from "./pages/Book";
+import Help from "./pages/Help";
 import { Login, Register } from "./pages/Auth";
 import Account from "./pages/Account";
 import Admin from "./pages/Admin";
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="packages/:slug" element={<PackageDetail />} />
         <Route path="gallery" element={<Gallery />} />
         <Route path="book" element={<Book />} />
+        <Route path="help" element={<Help />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route

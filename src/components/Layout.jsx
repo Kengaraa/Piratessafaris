@@ -21,6 +21,7 @@ const links = [
   ["/packages?category=beach", "Beach holidays"],
   ["/gallery", "Gallery"],
   ["/book", "Custom Booking"],
+  ["/help", "Help & Guide"],
 ];
 
 export default function Layout() {
@@ -34,17 +35,17 @@ export default function Layout() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <header className="sticky top-0 z-40 bg-ink-900 text-white shadow">
-        <div className="container-x flex h-16 items-center justify-between">
+        <div className="container-x flex h-16 items-center justify-between gap-2">
           <Link
             to="/"
-            className="flex items-center gap-2.5 font-display text-xl font-bold"
+            className="flex shrink-0 items-center gap-2 font-display text-lg font-bold sm:gap-2.5 sm:text-xl"
           >
             <img
               src="/logo.jpeg"
               alt="Piratessafaris Logo"
-              className="h-10 w-10 rounded-full border border-brass-400/50 object-cover"
+              className="h-9 w-9 rounded-full border border-brass-400/50 object-cover sm:h-10 sm:w-10"
             />
             <span>Piratessafaris</span>
           </Link>
@@ -102,7 +103,7 @@ export default function Layout() {
             )}
           </div>
           <button
-            className="lg:hidden"
+            className="p-1.5 lg:hidden"
             onClick={() => setOpen(!open)}
             aria-label="Menu"
           >
@@ -110,24 +111,24 @@ export default function Layout() {
           </button>
         </div>
         {open && (
-          <div className="border-t border-white/10 px-4 pb-4 lg:hidden">
+          <div className="border-t border-white/10 bg-ink-900 px-4 pb-4 lg:hidden">
             {links.map(([to, l]) => (
               <Link
                 key={to}
                 to={to}
                 onClick={() => setOpen(false)}
-                className="block py-2.5 text-white/90"
+                className="block border-b border-white/5 py-2.5 text-sm text-white/90"
               >
                 {l}
               </Link>
             ))}
-            <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-3">
+            <div className="mt-3 flex flex-col gap-2 pt-1">
               {user ? (
                 <>
                   <Link
                     to="/account"
                     onClick={() => setOpen(false)}
-                    className="py-1.5"
+                    className="py-1.5 text-sm"
                   >
                     My trips
                   </Link>
@@ -135,12 +136,15 @@ export default function Layout() {
                     <Link
                       to="/admin"
                       onClick={() => setOpen(false)}
-                      className="py-1.5"
+                      className="py-1.5 text-sm"
                     >
                       Admin
                     </Link>
                   )}
-                  <button onClick={out} className="py-1.5 text-left">
+                  <button
+                    onClick={out}
+                    className="py-1.5 text-left text-sm text-white/80"
+                  >
                     Sign out
                   </button>
                 </>
@@ -149,14 +153,14 @@ export default function Layout() {
                   <Link
                     to="/login"
                     onClick={() => setOpen(false)}
-                    className="py-1.5"
+                    className="py-1.5 text-sm"
                   >
                     Sign in
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setOpen(false)}
-                    className="btn btn-primary"
+                    className="btn btn-primary w-full"
                   >
                     Create account
                   </Link>
@@ -168,13 +172,13 @@ export default function Layout() {
       </header>
 
       {!configured && (
-        <p className="bg-ember px-4 py-2 text-center text-sm text-white">
+        <p className="bg-ember px-4 py-2 text-center text-xs text-white sm:text-sm">
           Supabase is not configured. Copy .env.example to .env and add your
           project keys.
         </p>
       )}
 
-      <main className="flex-1">
+      <main className="min-w-0 flex-1">
         <Outlet />
       </main>
 
