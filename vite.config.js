@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['logo.jpeg'],
       manifest: {
         name: 'Piratessafaris',
         short_name: 'Piratessafaris',
@@ -17,17 +17,17 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: 'pwa-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'pwa-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'pwa-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+          { src: '/logo.jpeg', sizes: '192x192', type: 'image/jpeg' },
+          { src: '/logo.jpeg', sizes: '512x512', type: 'image/jpeg' },
+          { src: '/logo.jpeg', sizes: '512x512', type: 'image/jpeg', purpose: 'maskable' }
         ]
       },
       workbox: {
         navigateFallback: '/index.html',
         runtimeCaching: [{
           urlPattern: ({ url }) => /\.(png|jpe?g|webp|svg)$/.test(url.pathname) || url.hostname.includes('unsplash'),
-          handler: 'StaleWhileRevalidate',
-          options: { cacheName: 'images', expiration: { maxEntries: 80, maxAgeSeconds: 2592000 } }
+          handler: 'NetworkFirst',
+          options: { cacheName: 'images', expiration: { maxEntries: 80, maxAgeSeconds: 86400 } }
         }]
       }
     })

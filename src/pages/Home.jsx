@@ -10,7 +10,6 @@ import {
   Wallet,
   BadgeCheck,
   Camera,
-  Compass,
   ArrowRight,
   Phone,
 } from "lucide-react";
@@ -166,7 +165,12 @@ export default function Home() {
           </div>
           <div className="lg:col-span-8">
             <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brass-600">
-              <Compass className="h-4 w-4" /> About Piratessafaris
+              <img
+                src="/logo.jpeg"
+                alt=""
+                className="h-5 w-5 rounded-full object-cover"
+              />{" "}
+              About Piratessafaris
             </p>
             <h2 className="mt-2 text-3xl font-bold text-ink-900 sm:text-4xl">
               Pirates of the Savanna — Bold Journeys, Local Heart.
@@ -211,7 +215,11 @@ export default function Home() {
           <Spinner />
         ) : items.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm ring-1 ring-ink-900/10 sm:p-10">
-            <Compass className="mx-auto h-10 w-10 text-brass-500" />
+            <img
+              src="/logo.jpeg"
+              alt="Piratessafaris"
+              className="mx-auto h-12 w-12 rounded-full object-cover"
+            />
             <h3 className="mt-3 text-2xl font-bold text-ink-900">
               New Curated Safari &amp; Holiday Packages Coming Soon!
             </h3>
