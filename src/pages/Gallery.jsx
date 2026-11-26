@@ -17,9 +17,11 @@ const videoReels = [
   { id: 6, file: "/video-6.mp4", title: "Safari & Trail Edit 6" },
 ];
 
+const exts = [".jpeg", ".jpg", ".png"];
+
 function PhotoSlot({ photo, onSelect }) {
   const [extIndex, setExtIndex] = useState(0);
-  const exts = [".jpeg", ".jpg", ".png"];
+  const [loaded, setLoaded] = useState(false);
   const isMissing = extIndex >= exts.length;
   const currentSrc = !isMissing ? `${photo.base}${exts[extIndex]}` : null;
 
@@ -32,13 +34,25 @@ function PhotoSlot({ photo, onSelect }) {
       className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-ink-900/5 text-left ring-1 ring-ink-900/10 focus:outline-none focus:ring-2 focus:ring-brass-500"
     >
       {!isMissing ? (
-        <img
-          src={currentSrc}
-          alt={photo.label}
-          loading="lazy"
-          onError={() => setExtIndex((prev) => prev + 1)}
-          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-        />
+        <>
+          {!loaded && (
+            <div className="absolute inset-0 animate-pulse bg-ink-900/10" />
+          )}
+          <img
+            src={currentSrc}
+            alt={photo.label}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            onError={() => {
+              setLoaded(false);
+              setExtIndex((prev) => prev + 1);
+            }}
+            className={`h-full w-full object-cover transition duration-300 group-hover:scale-105 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        </>
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center p-3 text-center">
           <Camera className="h-6 w-6 text-brass-500" />
@@ -64,8 +78,8 @@ function VideoSlot({ reel }) {
           <video
             controls
             playsInline
-            preload="metadata"
-            className="h-full w-full object-contain bg-black"
+            preload="none"
+            className="h-full w-full bg-black object-contain"
             onError={() => setFailed(true)}
           >
             <source src={reel.file} type="video/mp4" />
