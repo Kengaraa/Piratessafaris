@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Compass, Loader2, Clock, MapPin } from 'lucide-react'
+import { Loader2, Clock, MapPin } from 'lucide-react'
 import { money } from '../lib/supabase'
 
 export const Spinner = () => (
@@ -10,8 +10,8 @@ export const Spinner = () => (
 export function SafeImg({ src, alt, className = '' }) {
   const [bad, setBad] = useState(!src)
   if (bad) return (
-    <div className={`flex items-center justify-center bg-gradient-to-br from-ink-800 to-ink-950 text-brass-500 ${className}`}>
-      <Compass className="h-10 w-10" />
+    <div className={`flex items-center justify-center bg-gradient-to-br from-ink-800 to-ink-950 p-6 ${className}`}>
+      <img src="/logo.jpeg" alt="Piratessafaris" className="h-16 w-16 rounded-full object-cover shadow-md" />
     </div>
   )
   return <img src={src} alt={alt} loading="lazy" onError={() => setBad(true)} className={`object-cover ${className}`} />

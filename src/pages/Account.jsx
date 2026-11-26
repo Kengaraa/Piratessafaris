@@ -3,6 +3,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { SignOutWithWarning } from "./Auth";
 
+export function statusStyle(status = "") {
+  const s = status.toLowerCase();
+  if (s === "confirmed" || s === "approved" || s === "paid" || s === "completed") {
+    return "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20";
+  }
+  if (s === "cancelled" || s === "canceled" || s === "rejected") {
+    return "bg-red-50 text-red-700 ring-1 ring-red-600/20";
+  }
+  return "bg-amber-50 text-amber-700 ring-1 ring-amber-600/20";
+}
+
 const DEFAULT_PREFS = {
   fullName: "",
   phone: "",

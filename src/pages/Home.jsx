@@ -111,7 +111,7 @@ export default function Home() {
         />
         <div className="container-x py-24 sm:py-32">
           <h1 className="max-w-3xl text-4xl font-extrabold leading-tight sm:text-6xl">
-            Wild places, planned properly.
+            wild places, planned properly.
           </h1>
           <p className="mt-5 max-w-xl text-lg text-white/80">
             Book safaris, beach holidays and international tours with
